@@ -76,6 +76,66 @@
         }
     }
     </script>
+
+    <style>
+        /* ===== MODERN CUSTOM SELECT DROPDOWN ===== */
+        .custom-select-wrapper { position: relative; user-select: none; }
+        .custom-select { position: relative; display: flex; flex-direction: column; }
+        .custom-select-trigger {
+            position: relative; display: flex; align-items: center; width: 100%;
+            padding: 14px 14px 14px 46px; font-size: 0.9rem; font-weight: 500;
+            color: var(--text); background: var(--surface); border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s;
+        }
+        .custom-select-trigger:hover { border-color: var(--primary); }
+        .custom-select.active .custom-select-trigger {
+            border-color: var(--primary); box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+        }
+        .custom-select.active .custom-select-trigger .arrow-icon { transform: rotate(180deg); }
+        
+        .custom-select-options {
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: var(--surface); border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+            max-height: 240px; overflow-y: auto; z-index: 1000;
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s;
+        }
+        .custom-select.active .custom-select-options { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .custom-option {
+            display: flex; align-items: center; padding: 12px 16px;
+            font-size: 0.9rem; color: var(--text); cursor: pointer;
+            transition: all 0.15s; border-bottom: 1px solid var(--border);
+        }
+        .custom-option:last-child { border-bottom: none; }
+        .custom-option:hover { background: var(--primary-light); color: var(--primary); }
+        .custom-option.selected { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+        .custom-option .opt-icon { font-size: 18px; margin-right: 12px; color: var(--text-secondary); }
+        .custom-option.selected .opt-icon { color: var(--primary); }
+        .custom-option .check-icon { margin-left: auto; opacity: 0; transition: opacity 0.2s; }
+        .custom-option.selected .check-icon { opacity: 1; }
+        
+        .custom-select-options::-webkit-scrollbar { width: 6px; }
+        .custom-select-options::-webkit-scrollbar-track { background: transparent; }
+        .custom-select-options::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        
+        #kelasPlaceholder { color: var(--text-secondary); flex: 1; }
+
+        /* ===== DISABLED STATES ===== */
+        .chip.disabled { opacity: 0.4; cursor: not-allowed; background-color: #f0f0f0; border-color: #e0e0e0; }
+        .chip.disabled input { pointer-events: none; }
+        .radio-list-item.disabled { opacity: 0.4; cursor: not-allowed; background-color: #f5f5f5; border-color: #e0e0e0; }
+        .radio-list-item.disabled input { pointer-events: none; }
+        .badge-disabled {
+            font-size: 0.65rem; padding: 2px 6px; background: #757575; color: white;
+            border-radius: 4px; margin-left: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* ===== DATE INPUT STYLING ===== */
+        input[type="date"] { font-family: 'Inter', sans-serif; cursor: pointer; color: var(--text); }
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+    </style>
 </head>
 <body>
     <div class="app-container">
@@ -120,7 +180,7 @@
                         <label for="namaLengkap">Nama Siswa Lengkap <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">person</span>
-                            <input type="text" id="namaLengkap" name="Nama Siswa Lengkap" required placeholder="Nama lengkap sesuai identitas">
+                            <input type="text" id="namaLengkap" name="Nama Siswa Lengkap" required placeholder="Nama lengkap sesuai identitas" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
 
@@ -128,17 +188,25 @@
                         <label for="namaPanggilan">Nama Panggilan <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">face</span>
-                            <input type="text" id="namaPanggilan" name="Nama Panggilan" required placeholder="Nama panggilan">
+                            <input type="text" id="namaPanggilan" name="Nama Panggilan" required placeholder="Nama panggilan" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="ttl">Tempat, Tanggal Lahir (TTL) <span class="required">*</span></label>
+                        <label for="tempatLahir">Tempat Lahir <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">location_city</span>
+                            <input type="text" id="tempatLahir" name="Tempat Lahir" required placeholder="Kota/Kabupaten" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tanggalLahir">Tanggal Lahir <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">cake</span>
-                            <input type="text" id="ttl" name="TTL" required placeholder="Contoh: Tuban, 10 Desember 2020">
+                            <input type="date" id="tanggalLahir" name="Tanggal Lahir" required>
                         </div>
-                        <span class="input-hint">Format: Kota, Tanggal Bulan Tahun</span>
+                        <span class="input-hint">Format: Pilih tanggal dari kalender</span>
                     </div>
 
                     <div class="form-group">
@@ -170,12 +238,13 @@
                     <div class="form-group">
                         <label>Jenjang Sekolah <span class="required">*</span></label>
                         <div class="chip-group" id="chipJenjang">
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="TK" required><span>TK</span></label>
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SD"><span>SD</span></label>
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMP"><span>SMP</span></label>
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMA"><span>SMA</span></label>
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="S1/S2/S3"><span>S1/S2/S3</span></label>
-                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="Umum"><span>Umum</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="Pre-School" required onchange="updateKelasOptions()"><span>Pre-School</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="TK" onchange="updateKelasOptions()"><span>TK</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SD" onchange="updateKelasOptions()"><span>SD</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMP" onchange="updateKelasOptions()"><span>SMP</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMA" onchange="updateKelasOptions()"><span>SMA</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="S1/S2/S3" onchange="updateKelasOptions()"><span>S1/S2/S3</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="Umum" onchange="updateKelasOptions()"><span>Umum</span></label>
                         </div>
                     </div>
 
@@ -183,23 +252,33 @@
                         <label for="asalSekolah">Nama Asal Sekolah <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">domain</span>
-                            <input type="text" id="asalSekolah" name="Nama Asal Sekolah" required placeholder="Nama sekolah saat ini">
+                            <input type="text" id="asalSekolah" name="Nama Asal Sekolah" required placeholder="Nama sekolah saat ini" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="kelas">Kelas <span class="required">*</span></label>
-                        <div class="input-wrapper">
-                            <span class="material-icons-round input-icon">grade</span>
-                            <input type="text" id="kelas" name="Kelas" required placeholder="Contoh: Kelas 5 SD / Kelas 11 SMA">
+                        <label>Kelas <span class="required">*</span></label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" id="kelasDropdown" onclick="toggleKelasDropdown()">
+                                <div class="custom-select-trigger">
+                                    <span class="material-icons-round" style="position:absolute; left:14px; color:var(--text-secondary); font-size:20px;">grade</span>
+                                    <span id="kelasPlaceholder">Pilih Jenjang Sekolah terlebih dahulu</span>
+                                    <span class="material-icons-round arrow-icon" style="margin-left:auto; font-size:20px; color:var(--text-secondary); transition: transform 0.2s;">expand_more</span>
+                                </div>
+                                <div class="custom-select-options" id="kelasOptions">
+                                    <!-- Options will be inserted here dynamically -->
+                                </div>
+                            </div>
+                            <input type="hidden" id="kelas" name="Kelas" required>
                         </div>
+                        <span class="input-hint">Pilih kelas sesuai jenjang sekolah</span>
                     </div>
 
                     <div class="form-group">
                         <label for="alamat">Alamat <span class="required">*</span></label>
                         <div class="input-wrapper textarea-wrapper">
                             <span class="material-icons-round input-icon">location_on</span>
-                            <textarea id="alamat" name="Alamat" required placeholder="Alamat lengkap" rows="3"></textarea>
+                            <textarea id="alamat" name="Alamat" required placeholder="Alamat lengkap" rows="3" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()"></textarea>
                         </div>
                     </div>
 
@@ -215,8 +294,9 @@
                         <label for="noHP">No. HP / WhatsApp (WA) <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">smartphone</span>
-                            <input type="tel" id="noHP" name="No HP/WA" required placeholder="Contoh: 081234567890">
+                            <input type="tel" id="noHP" name="No HP/WA" required placeholder="Contoh: 081234567890" pattern="[0-9]{10,15}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
+                        <span class="input-hint">Hanya angka, minimal 10 digit</span>
                     </div>
                 </section>
 
@@ -233,7 +313,7 @@
                         <label for="namaAyah">Nama Ayah <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">man</span>
-                            <input type="text" id="namaAyah" name="Nama Ayah" required placeholder="Nama lengkap ayah">
+                            <input type="text" id="namaAyah" name="Nama Ayah" required placeholder="Nama lengkap ayah" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
 
@@ -241,7 +321,7 @@
                         <label for="namaIbu">Nama Ibu <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">woman</span>
-                            <input type="text" id="namaIbu" name="Nama Ibu" required placeholder="Nama lengkap ibu">
+                            <input type="text" id="namaIbu" name="Nama Ibu" required placeholder="Nama lengkap ibu" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
 
@@ -249,8 +329,9 @@
                         <label for="noWAOrtu">No. HP / WhatsApp (WA) Orang Tua <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <span class="material-icons-round input-icon">phone</span>
-                            <input type="tel" id="noWAOrtu" name="No HP/WA Orang Tua" required placeholder="Contoh: 081234567890">
+                            <input type="tel" id="noWAOrtu" name="No HP/WA Orang Tua" required placeholder="Contoh: 081234567890" pattern="[0-9]{10,15}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
+                        <span class="input-hint">Hanya angka, minimal 10 digit</span>
                     </div>
                 </section>
 
@@ -259,7 +340,7 @@
                     <div class="section-header">
                         <span class="section-number">❹</span>
                         <div>
-                            <h2 class="section-title">Program dan Layanan</h2>
+                            <h2 class="section-title">Pilihan Kursus</h2>
                         </div>
                     </div>
 
@@ -267,38 +348,31 @@
                         <label>Program <span class="required">*</span></label>
                         <div class="radio-list">
                             <label class="radio-list-item">
-                                <input type="radio" name="Program" value="(SD) English for Kids" required>
+                                <input type="radio" name="Program" value="Kursus Bahasa Inggris" required>
+                                <span class="material-icons-round radio-icon">language</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">Kursus Bahasa Inggris</span>
+                                </div>
+                            </label>
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="Bimbel">
                                 <span class="material-icons-round radio-icon">menu_book</span>
                                 <div class="radio-text">
-                                    <span class="radio-title">(SD) English for Kids</span>
+                                    <span class="radio-title">Bimbel</span>
                                 </div>
                             </label>
-                            <label class="radio-list-item">
-                                <input type="radio" name="Program" value="(SMP) English for JHS">
-                                <span class="material-icons-round radio-icon">translate</span>
+                            <label class="radio-list-item disabled">
+                                <input type="radio" name="Program" value="Komputer" disabled>
+                                <span class="material-icons-round radio-icon">computer</span>
                                 <div class="radio-text">
-                                    <span class="radio-title">(SMP) English for JHS</span>
+                                    <span class="radio-title">Komputer <span class="badge-disabled">SEGERA</span></span>
                                 </div>
                             </label>
-                            <label class="radio-list-item">
-                                <input type="radio" name="Program" value="(SMA) English SHS">
-                                <span class="material-icons-round radio-icon">auto_stories</span>
+                            <label class="radio-list-item disabled">
+                                <input type="radio" name="Program" value="Coding" disabled>
+                                <span class="material-icons-round radio-icon">code</span>
                                 <div class="radio-text">
-                                    <span class="radio-title">(SMA) English SHS</span>
-                                </div>
-                            </label>
-                            <label class="radio-list-item">
-                                <input type="radio" name="Program" value="Regular (UMUM)">
-                                <span class="material-icons-round radio-icon">groups</span>
-                                <div class="radio-text">
-                                    <span class="radio-title">Regular (UMUM)</span>
-                                </div>
-                            </label>
-                            <label class="radio-list-item">
-                                <input type="radio" name="Program" value="Bimbel (Semua Pelajaran)">
-                                <span class="material-icons-round radio-icon">library_books</span>
-                                <div class="radio-text">
-                                    <span class="radio-title">Bimbel (Semua Pelajaran)</span>
+                                    <span class="radio-title">Coding <span class="badge-disabled">SEGERA</span></span>
                                 </div>
                             </label>
                         </div>
@@ -307,9 +381,31 @@
                     <div class="form-group">
                         <label>Service (Layanan) <span class="required">*</span></label>
                         <div class="chip-group" id="chipService">
-                            <label class="chip"><input type="radio" name="Service" value="Kelas Private" required><span>Kelas Private</span></label>
-                            <label class="chip"><input type="radio" name="Service" value="Kelas Regular"><span>Kelas Regular</span></label>
-                            <label class="chip"><input type="radio" name="Service" value="Trial Class"><span>Trial Class</span></label>
+                            <label class="chip">
+                                <input type="radio" name="Service" value="Kelas Private (1 Peserta)" required>
+                                <span class="material-icons-round" style="font-size:16px; margin-right:4px;">person</span>
+                                <span>Private (1)</span>
+                            </label>
+                            <label class="chip">
+                                <input type="radio" name="Service" value="Kelas Semi-Private (2-5 Peserta)">
+                                <span class="material-icons-round" style="font-size:16px; margin-right:4px;">people_outline</span>
+                                <span>Semi-Private (2-5)</span>
+                            </label>
+                            <label class="chip">
+                                <input type="radio" name="Service" value="Kelas Regular / Group Class (6-15 Peserta)">
+                                <span class="material-icons-round" style="font-size:16px; margin-right:4px;">groups</span>
+                                <span>Regular (6-15)</span>
+                            </label>
+                            <label class="chip disabled">
+                                <input type="radio" name="Service" value="Kelas Intensif" disabled>
+                                <span class="material-icons-round" style="font-size:16px; margin-right:4px;">schedule</span>
+                                <span>Intensif <span class="badge-disabled">SEGERA</span></span>
+                            </label>
+                            <label class="chip disabled">
+                                <input type="radio" name="Service" value="Trial Class (Kelas Uji Coba)" disabled>
+                                <span class="material-icons-round" style="font-size:16px; margin-right:4px;">event_available</span>
+                                <span>Trial Class <span class="badge-disabled">SEGERA</span></span>
+                            </label>
                         </div>
                     </div>
 
@@ -329,7 +425,7 @@
                         </div>
                         <div class="input-wrapper" style="margin-top:12px;">
                             <span class="material-icons-round input-icon">edit</span>
-                            <input type="text" id="sumberLainnya" name="Sumber Informasi Lainnya" placeholder="Lainnya (ketik di sini jika tidak ada di atas)">
+                            <input type="text" id="sumberLainnya" name="Sumber Informasi Lainnya" placeholder="Lainnya (ketik di sini jika tidak ada di atas)" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                         </div>
                     </div>
                 </section>
@@ -395,15 +491,15 @@
                 <div class="guide-item">
                     <span class="material-icons-round guide-icon">cake</span>
                     <div>
-                        <p class="guide-title">Format TTL</p>
-                        <p class="guide-text">Tulis dengan format: <em>Kota, Tanggal Bulan Tahun</em>. Contoh: Tuban, 10 Desember 2020</p>
+                        <p class="guide-title">Tanggal Lahir</p>
+                        <p class="guide-text">Pilih tanggal dari kalender yang tersedia.</p>
                     </div>
                 </div>
                 <div class="guide-item">
                     <span class="material-icons-round guide-icon">smartphone</span>
                     <div>
                         <p class="guide-title">Nomor WhatsApp</p>
-                        <p class="guide-text">Pastikan nomor WA aktif untuk keperluan konfirmasi dan komunikasi.</p>
+                        <p class="guide-text">Hanya angka, minimal 10 digit. Pastikan nomor WA aktif.</p>
                     </div>
                 </div>
                 <div class="guide-item">
@@ -492,6 +588,110 @@
         </div>
     </div>
 
+    <!-- ===== SCRIPTS ===== -->
     <script src="script.js"></script>
+    
+    <script>
+        // ===== DYNAMIC KELAS OPTIONS & CUSTOM DROPDOWN LOGIC =====
+        const kelasOptions = {
+            'Pre-School': ['PAUD'],
+            'TK': ['TK A', 'TK B'],
+            'SD': ['Kelas 1 (Satu)', 'Kelas 2 (Dua)', 'Kelas 3 (Tiga)', 'Kelas 4 (Empat)', 'Kelas 5 (Lima)', 'Kelas 6 (Enam)'],
+            'SMP': ['Kelas 7 / VII', 'Kelas 8 / VIII', 'Kelas 9 / IX'],
+            'SMA': ['Kelas 10 / X', 'Kelas 11 / XI', 'Kelas 12 / XII'],
+            'S1/S2/S3': ['S1', 'S2', 'S3'],
+            'Umum': ['Regular Umum']
+        };
+
+        function updateKelasOptions() {
+            const jenjang = document.querySelector('input[name="Jenjang Sekolah"]:checked');
+            const dropdownOptions = document.getElementById('kelasOptions');
+            const placeholder = document.getElementById('kelasPlaceholder');
+            const hiddenInput = document.getElementById('kelas');
+            const dropdown = document.getElementById('kelasDropdown');
+            
+            dropdown.classList.remove('active');
+            hiddenInput.value = '';
+            
+            if (!jenjang) {
+                placeholder.textContent = 'Pilih Jenjang Sekolah terlebih dahulu';
+                placeholder.style.color = 'var(--text-secondary)';
+                dropdownOptions.innerHTML = '';
+                return;
+            }
+            
+            const options = kelasOptions[jenjang.value] || [];
+            
+            if (options.length === 0) {
+                placeholder.textContent = 'Tidak ada kelas tersedia';
+                placeholder.style.color = 'var(--error)';
+                dropdownOptions.innerHTML = '';
+                return;
+            }
+            
+            placeholder.textContent = 'Pilih Kelas';
+            placeholder.style.color = 'var(--text-secondary)';
+            
+            let html = '';
+            options.forEach((opt) => {
+                const escapedOpt = opt.replace(/'/g, "\\'");
+                html += `
+                    <div class="custom-option" onclick="selectKelas('${escapedOpt}', this)">
+                        <span class="material-icons-round opt-icon">school</span>
+                        <span>${opt}</span>
+                        <span class="material-icons-round check-icon">check</span>
+                    </div>
+                `;
+            });
+            
+            dropdownOptions.innerHTML = html;
+        }
+
+        function toggleKelasDropdown() {
+            const dropdown = document.getElementById('kelasDropdown');
+            const options = document.getElementById('kelasOptions');
+            if (options.children.length === 0) return;
+            dropdown.classList.toggle('active');
+        }
+
+        function selectKelas(value, element) {
+            const hiddenInput = document.getElementById('kelas');
+            const placeholder = document.getElementById('kelasPlaceholder');
+            const dropdown = document.getElementById('kelasDropdown');
+            
+            hiddenInput.value = value;
+            placeholder.textContent = value;
+            placeholder.style.color = 'var(--text)';
+            
+            document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            dropdown.classList.remove('active');
+            
+            const event = new Event('change');
+            hiddenInput.dispatchEvent(event);
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('kelasDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // ===== FORMAT TTL FOR SUBMISSION (Called by script.js) =====
+        function getFormattedTTL() {
+            const tempat = document.getElementById('tempatLahir').value;
+            const tanggal = document.getElementById('tanggalLahir').value;
+            
+            if (!tempat || !tanggal) return '';
+            
+            const dateObj = new Date(tanggal);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = dateObj.toLocaleDateString('id-ID', options);
+            
+            return `${tempat.toUpperCase()}, ${formattedDate}`;
+        }
+    </script>
 </body>
 </html>
