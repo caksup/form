@@ -1,9 +1,9 @@
-// ============================================
+// v3.1 ============================================
 // JAGAT EDUCATION CENTER - FRONTEND LOGIC
 // ============================================
 
 // ⚠️ GANTI URL DI BAWAH DENGAN URL WEB APP APPS SCRIPT ANDA
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxywGupKGwsfx9Fm-hb2lYld4resnDm-hqOWowJ33MPPBl70LSMM7B_teeqfF4I-odv/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx5D5C-gpEx03HVk_PQG2MZk9dgsRg369FQQ8BIQGZNZNO0cKgRZVwz7eJzjS_7B6fS/exec";
 
 // ===== DOM ELEMENTS =====
 const $ = (sel) => document.querySelector(sel);
