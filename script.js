@@ -1,4 +1,4 @@
-// v3.1 ============================================
+// ============================================
 // JAGAT EDUCATION CENTER - FRONTEND LOGIC
 // ============================================
 
@@ -25,7 +25,7 @@ let formData = {};
 const STORAGE_KEY = 'jec_registration_form';
 
 function saveToLocalStorage() {
-    const formData = {};
+    const formDataObj = {};
     const elements = form.elements;
     
     for (let i = 0; i < elements.length; i++) {
@@ -34,21 +34,25 @@ function saveToLocalStorage() {
         
         if (el.type === 'radio') {
             if (el.checked) {
-                formData[el.name] = el.value;
+                formDataObj[el.name] = el.value;
             }
         } else if (el.type === 'checkbox') {
             if (el.checked) {
-                if (!formData[el.name]) formData[el.name] = [];
-                formData[el.name].push(el.value);
+                if (!formDataObj[el.name]) formDataObj[el.name] = [];
+                formDataObj[el.name].push(el.value);
+            }
+        } else if (el.type === 'hidden') {
+            if (el.value.trim()) {
+                formDataObj[el.name] = el.value.trim();
             }
         } else {
             if (el.value.trim()) {
-                formData[el.name] = el.value.trim();
+                formDataObj[el.name] = el.value.trim();
             }
         }
     }
     
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formDataObj));
 }
 
 function loadFromLocalStorage() {
@@ -68,13 +72,43 @@ function loadFromLocalStorage() {
                     el.checked = (el.value === data[el.name]);
                 }
             } else if (el.type === 'checkbox') {
-                if (data[el.name] && data[el.name].includes(el.value)) {
+                if (data[el.name] && Array.isArray(data[el.name]) && data[el.name].includes(el.value)) {
                     el.checked = true;
                 }
+            } else if (el.type === 'hidden' && el.id === 'kelas') {
+                // Handled separately after updating options
             } else if (el.type !== 'submit' && el.type !== 'button') {
                 if (data[el.name]) {
                     el.value = data[el.name];
                 }
+            }
+        }
+        
+        // Restore custom kelas dropdown UI
+        const jenjangChecked = document.querySelector('input[name="Jenjang Sekolah"]:checked');
+        if (jenjangChecked && typeof updateKelasOptions === 'function') {
+            updateKelasOptions();
+            
+            if (data['Kelas']) {
+                setTimeout(() => {
+                    const hiddenKelas = $('#kelas');
+                    const placeholder = $('#kelasPlaceholder');
+                    
+                    if (hiddenKelas) hiddenKelas.value = data['Kelas'];
+                    if (placeholder) {
+                        placeholder.textContent = data['Kelas'];
+                        placeholder.style.color = 'var(--text)';
+                    }
+                    
+                    // Mark the correct option as selected
+                    const options = document.querySelectorAll('.custom-option');
+                    options.forEach(opt => {
+                        const optText = opt.querySelector('span:nth-child(2)')?.textContent;
+                        if (optText === data['Kelas']) {
+                            opt.classList.add('selected');
+                        }
+                    });
+                }, 50);
             }
         }
     } catch (e) {
@@ -88,7 +122,7 @@ function clearLocalStorage() {
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-    loadFromLocalStorage(); // Load saved data
+    loadFromLocalStorage();
     initEventListeners();
     initTextAnimation();
 });
@@ -130,7 +164,7 @@ function initEventListeners() {
     $('#btnKonfirmasiWA').addEventListener('click', handleKonfirmasiWA);
     $('#btnKembaliAwal').addEventListener('click', resetForm);
 
-    // Close Modal Events - Direct binding untuk semua close buttons
+    // Close Modal Events
     $$('.close-modal').forEach(btn => {
         btn.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
@@ -157,9 +191,25 @@ function initEventListeners() {
         }
     });
 
-    // Auto-save to localStorage on input change
+    // Auto-save to localStorage on input/change
     form.addEventListener('input', saveToLocalStorage);
-    form.addEventListener('change', saveToLocalStorage);
+    form.addEventListener('change', (e) => {
+        if (e.target.name === 'Jenjang Sekolah') {
+            if (typeof updateKelasOptions === 'function') {
+                updateKelasOptions();
+            }
+            const hiddenKelas = $('#kelas');
+            if (hiddenKelas) hiddenKelas.value = '';
+            
+            const placeholder = $('#kelasPlaceholder');
+            if (placeholder) {
+                placeholder.textContent = 'Pilih Kelas';
+                placeholder.style.color = 'var(--text-secondary)';
+            }
+            document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+        }
+        saveToLocalStorage();
+    });
 
     // Auto-fill "Sumber Informasi Lainnya" into radio logic
     const sumberLainnya = $('#sumberLainnya');
@@ -190,15 +240,29 @@ function closeModal(modal) {
 function validateForm() {
     const errors = [];
     
-    const requiredInputs = form.querySelectorAll('input[required]:not([type="radio"])');
+    // Required text/tel/email/date inputs
+    const requiredInputs = form.querySelectorAll('input[required]:not([type="radio"]):not([type="hidden"])');
     requiredInputs.forEach(input => {
         if (!input.value.trim()) {
             const label = form.querySelector(`label[for="${input.id}"]`);
-            const fieldName = label ? label.textContent.replace(' *', '').trim() : input.name;
+            let fieldName = label ? label.textContent.replace(' *', '').trim() : input.name;
+            if (input.id === 'tanggalLahir') fieldName = 'Tanggal Lahir';
+            if (input.id === 'tempatLahir') fieldName = 'Tempat Lahir';
             errors.push(fieldName);
         }
     });
 
+    // Required hidden input (Kelas)
+    const requiredHidden = form.querySelectorAll('input[type="hidden"][required]');
+    requiredHidden.forEach(input => {
+        if (!input.value || input.value.trim() === '') {
+            if (input.id === 'kelas') {
+                errors.push('Kelas');
+            }
+        }
+    });
+
+    // Required textarea
     const requiredTextareas = form.querySelectorAll('textarea[required]');
     requiredTextareas.forEach(ta => {
         if (!ta.value.trim()) {
@@ -206,6 +270,7 @@ function validateForm() {
         }
     });
 
+    // Required radio groups
     const requiredRadios = form.querySelectorAll('input[type="radio"][required]');
     const checkedGroups = new Set();
     requiredRadios.forEach(radio => {
@@ -236,6 +301,10 @@ function collectFormData() {
             if (el.checked) {
                 data[el.name] = el.value;
             }
+        } else if (el.type === 'hidden') {
+            if (el.value.trim()) {
+                data[el.name] = el.value.trim();
+            }
         } else if (el.type !== 'submit' && el.type !== 'button') {
             if (el.value.trim()) {
                 data[el.name] = el.value.trim();
@@ -243,7 +312,27 @@ function collectFormData() {
         }
     }
 
-    const sumberLainnya = $('#sumberLainnya').value.trim();
+    // Gabungkan Tempat Lahir + Tanggal Lahir menjadi TTL yang diformat
+    const tempatLahir = $('#tempatLahir')?.value?.trim() || '';
+    const tanggalLahir = $('#tanggalLahir')?.value?.trim() || '';
+    
+    if (tempatLahir && tanggalLahir) {
+        // Tambahkan 'T00:00:00' untuk mencegah masalah timezone offset
+        const dateObj = new Date(tanggalLahir + 'T00:00:00');
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = dateObj.toLocaleDateString('id-ID', options);
+        data['TTL'] = `${tempatLahir}, ${formattedDate}`;
+    } else if (tempatLahir) {
+        data['TTL'] = tempatLahir;
+    } else if (tanggalLahir) {
+        const dateObj = new Date(tanggalLahir + 'T00:00:00');
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = dateObj.toLocaleDateString('id-ID', options);
+        data['TTL'] = formattedDate;
+    }
+
+    // Handle "Sumber Informasi Lainnya"
+    const sumberLainnya = $('#sumberLainnya')?.value?.trim();
     if (sumberLainnya && !data['Sumber Informasi']) {
         data['Sumber Informasi'] = 'Lainnya: ' + sumberLainnya;
     }
@@ -277,7 +366,7 @@ function renderReview() {
         '❶ Personal Info': ['Nama Siswa Lengkap', 'Nama Panggilan', 'TTL', 'Jenis Kelamin'],
         '❷ Data Pendidikan': ['Jenjang Sekolah', 'Nama Asal Sekolah', 'Kelas', 'Alamat', 'Email', 'No HP/WA'],
         '❸ Data Orang Tua': ['Nama Ayah', 'Nama Ibu', 'No HP/WA Orang Tua'],
-        '❹ Program & Layanan': ['Program', 'Service', 'Sumber Informasi']
+        '❹ Pilihan Kursus & Layanan': ['Program', 'Service', 'Sumber Informasi']
     };
 
     let html = '';
@@ -309,8 +398,7 @@ function renderReview() {
 
 // ===== HANDLE KIRIM DATA =====
 async function handleKirimData() {
-    // Check if URL is still default
-    if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
+    if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE" || !APPS_SCRIPT_URL) {
         errorMessage.innerHTML = `
             <p><strong>Konfigurasi belum lengkap!</strong></p>
             <p style="margin-top:8px;">URL Apps Script belum diatur di file script.js</p>
@@ -343,7 +431,6 @@ async function handleKirimData() {
         const result = await response.json();
 
         if (result.status === 'success') {
-            // Clear localStorage after successful submission
             clearLocalStorage();
             showSuccessView();
         } else {
@@ -353,7 +440,6 @@ async function handleKirimData() {
     } catch (error) {
         console.error('Error sending data:', error);
         
-        // Handle specific error messages
         let errorDetail = error.message;
         let errorHint = 'Pastikan koneksi internet stabil dan coba lagi.';
         
@@ -392,7 +478,20 @@ function showSuccessView() {
 function resetForm() {
     form.reset();
     formData = {};
-    clearLocalStorage(); // Clear saved data
+    clearLocalStorage();
+    
+    // Reset custom kelas dropdown UI
+    const placeholder = $('#kelasPlaceholder');
+    if (placeholder) {
+        placeholder.textContent = 'Pilih Jenjang Sekolah terlebih dahulu';
+        placeholder.style.color = 'var(--text-secondary)';
+    }
+    const hiddenKelas = $('#kelas');
+    if (hiddenKelas) hiddenKelas.value = '';
+    document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+    const kelasOptionsDiv = $('#kelasOptions');
+    if (kelasOptionsDiv) kelasOptionsDiv.innerHTML = '';
+    
     viewSuccess.classList.remove('active');
     viewForm.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
