@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- ===== PRIMARY METADATA ===== -->
+    <title>Form Pendaftaran - Jagat Education Center (JEC)</title>
+    <meta name="title" content="Form Pendaftaran - Jagat Education Center (JEC)">
+    <meta name="description" content="Daftar kursus bahasa Inggris dan bimbel di Jagat Education Center. Program untuk SD, SMP, SMA dan Regular. Daftar sekarang!">
+    <meta name="keywords" content="Jagat Education Center, JEC, kursus bahasa Inggris, bimbel, les privat, English course, Tuban">
+    <meta name="author" content="Jagat Education Center">
+    <meta name="robots" content="index, follow">
+    
+    <!-- ===== FAVICONS & APP ICONS ===== -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="jec-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- ===== OPENGRAPH / FACEBOOK ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://caksup.github.io/form/">
+    <meta property="og:title" content="Form Pendaftaran - Jagat Education Center (JEC)">
+    <meta property="og:description" content="Daftar kursus bahasa Inggris dan bimbel di Jagat Education Center. Program untuk SD, SMP, SMA dengan pengajar profesional.">
+    <meta property="og:image" content="https://caksup.github.io/form/android-chrome-512x512.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:site_name" content="Jagat Education Center">
+    <meta property="og:locale" content="id_ID">
+    
+    <!-- ===== TWITTER CARD ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Form Pendaftaran - Jagat Education Center (JEC)">
+    <meta name="twitter:description" content="Daftar kursus bahasa Inggris dan bimbel di Jagat Education Center. Program untuk SD, SMP, SMA.">
+    <meta name="twitter:image" content="https://caksup.github.io/form/android-chrome-512x512.png">
+    
+    <!-- ===== ANDROID CHROME ===== -->
+    <meta name="theme-color" content="#1976D2">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="JEC Registration">
+    
+    <!-- ===== APPLE IOS ===== -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="JEC Form">
+    
+    <!-- ===== MICROSOFT ===== -->
+    <meta name="msapplication-TileColor" content="#1976D2">
+    <meta name="msapplication-TileImage" content="android-chrome-192x192.png">
+    <meta name="msapplication-config" content="site.webmanifest">
+    
+    <!-- ===== STYLES & FONTS ===== -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ===== STRUCTURED DATA (JSON-LD) ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Jagat Education Center",
+        "alternateName": "JEC",
+        "description": "Pusat kursus bahasa Inggris dan bimbingan belajar untuk SD, SMP, SMA",
+        "url": "https://caksup.github.io/form/",
+        "logo": "https://caksup.github.io/form/android-chrome-512x512.png",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+62-853-3591-3758",
+            "contactType": "customer service"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- ===== HEADER WITH LOGO & ANIMATED TEXT ===== -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-logo-wrapper">
+                    <img src="apple-touch-icon.png" alt="JEC Logo" class="header-logo">
+                </div>
+                <div class="header-text">
+                    <span class="header-label">Online Registrasi</span>
+                    <div class="header-title-wrapper">
+                        <h1 class="header-title">Form Pendaftaran Kelas</h1>
+                        <div class="animated-brand">
+                            <span class="brand-text active" data-text="JEC">JEC</span>
+                            <span class="brand-text" data-text="Jagat Education Center">Jagat Education Center</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="fab-btn" id="btnPanduan" title="Panduan Pengisian">
+                <span class="material-icons-round">info</span>
+            </button>
+        </header>
+
+        <!-- ===== MAIN FORM VIEW ===== -->
+        <main id="viewForm" class="view active">
+            <form id="registrationForm" novalidate>
+
+                <!-- Section 1: Personal Info -->
+                <section class="form-section">
+                    <div class="section-header">
+                        <span class="section-number">❶</span>
+                        <div>
+                            <h2 class="section-title">Personal Info</h2>
+                            <p class="section-desc">Data Peserta</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaLengkap">Nama Siswa Lengkap <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">person</span>
+                            <input type="text" id="namaLengkap" name="Nama Siswa Lengkap" required placeholder="Nama lengkap sesuai identitas">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaPanggilan">Nama Panggilan <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">face</span>
+                            <input type="text" id="namaPanggilan" name="Nama Panggilan" required placeholder="Nama panggilan">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ttl">Tempat, Tanggal Lahir (TTL) <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">cake</span>
+                            <input type="text" id="ttl" name="TTL" required placeholder="Contoh: Tuban, 10 Desember 2020">
+                        </div>
+                        <span class="input-hint">Format: Kota, Tanggal Bulan Tahun</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jenis Kelamin <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-card">
+                                <input type="radio" name="Jenis Kelamin" value="Laki-laki" required>
+                                <span class="material-icons-round">male</span>
+                                <span>Laki-laki</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="Jenis Kelamin" value="Perempuan">
+                                <span class="material-icons-round">female</span>
+                                <span>Perempuan</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Data Pendidikan -->
+                <section class="form-section">
+                    <div class="section-header">
+                        <span class="section-number">❷</span>
+                        <div>
+                            <h2 class="section-title">Data Pendidikan</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jenjang Sekolah <span class="required">*</span></label>
+                        <div class="chip-group" id="chipJenjang">
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="TK" required><span>TK</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SD"><span>SD</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMP"><span>SMP</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="SMA"><span>SMA</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="S1/S2/S3"><span>S1/S2/S3</span></label>
+                            <label class="chip"><input type="radio" name="Jenjang Sekolah" value="Umum"><span>Umum</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asalSekolah">Nama Asal Sekolah <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">domain</span>
+                            <input type="text" id="asalSekolah" name="Nama Asal Sekolah" required placeholder="Nama sekolah saat ini">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kelas">Kelas <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">grade</span>
+                            <input type="text" id="kelas" name="Kelas" required placeholder="Contoh: Kelas 5 SD / Kelas 11 SMA">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alamat">Alamat <span class="required">*</span></label>
+                        <div class="input-wrapper textarea-wrapper">
+                            <span class="material-icons-round input-icon">location_on</span>
+                            <textarea id="alamat" name="Alamat" required placeholder="Alamat lengkap" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">email</span>
+                            <input type="email" id="email" name="Email" placeholder="email@contoh.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="noHP">No. HP / WhatsApp (WA) <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">smartphone</span>
+                            <input type="tel" id="noHP" name="No HP/WA" required placeholder="Contoh: 081234567890">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Data Orang Tua -->
+                <section class="form-section">
+                    <div class="section-header">
+                        <span class="section-number">❸</span>
+                        <div>
+                            <h2 class="section-title">Data Orang Tua</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaAyah">Nama Ayah <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">man</span>
+                            <input type="text" id="namaAyah" name="Nama Ayah" required placeholder="Nama lengkap ayah">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaIbu">Nama Ibu <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">woman</span>
+                            <input type="text" id="namaIbu" name="Nama Ibu" required placeholder="Nama lengkap ibu">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="noWAOrtu">No. HP / WhatsApp (WA) Orang Tua <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round input-icon">phone</span>
+                            <input type="tel" id="noWAOrtu" name="No HP/WA Orang Tua" required placeholder="Contoh: 081234567890">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Program dan Layanan -->
+                <section class="form-section">
+                    <div class="section-header">
+                        <span class="section-number">❹</span>
+                        <div>
+                            <h2 class="section-title">Program dan Layanan</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Program <span class="required">*</span></label>
+                        <div class="radio-list">
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="(SD) English for Kids" required>
+                                <span class="material-icons-round radio-icon">menu_book</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">(SD) English for Kids</span>
+                                </div>
+                            </label>
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="(SMP) English for JHS">
+                                <span class="material-icons-round radio-icon">translate</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">(SMP) English for JHS</span>
+                                </div>
+                            </label>
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="(SMA) English SHS">
+                                <span class="material-icons-round radio-icon">auto_stories</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">(SMA) English SHS</span>
+                                </div>
+                            </label>
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="Regular (UMUM)">
+                                <span class="material-icons-round radio-icon">groups</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">Regular (UMUM)</span>
+                                </div>
+                            </label>
+                            <label class="radio-list-item">
+                                <input type="radio" name="Program" value="Bimbel (Semua Pelajaran)">
+                                <span class="material-icons-round radio-icon">library_books</span>
+                                <div class="radio-text">
+                                    <span class="radio-title">Bimbel (Semua Pelajaran)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service (Layanan) <span class="required">*</span></label>
+                        <div class="chip-group" id="chipService">
+                            <label class="chip"><input type="radio" name="Service" value="Kelas Private" required><span>Kelas Private</span></label>
+                            <label class="chip"><input type="radio" name="Service" value="Kelas Regular"><span>Kelas Regular</span></label>
+                            <label class="chip"><input type="radio" name="Service" value="Trial Class"><span>Trial Class</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sumber Informasi JEC dari:</label>
+                        <div class="chip-group" id="chipSumber">
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Teman"><span>Teman</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Website"><span>Website</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Google"><span>Google</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Facebook"><span>Facebook</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Instagram"><span>Instagram</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Tiktok"><span>Tiktok</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Spanduk"><span>Spanduk</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Brosur"><span>Brosur</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Radio"><span>Radio</span></label>
+                            <label class="chip"><input type="radio" name="Sumber Informasi" value="Koran"><span>Koran</span></label>
+                        </div>
+                        <div class="input-wrapper" style="margin-top:12px;">
+                            <span class="material-icons-round input-icon">edit</span>
+                            <input type="text" id="sumberLainnya" name="Sumber Informasi Lainnya" placeholder="Lainnya (ketik di sini jika tidak ada di atas)">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="btnCekFormulir">
+                        <span class="material-icons-round">fact_check</span>
+                        Cek Formulir
+                    </button>
+                </div>
+
+            </form>
+        </main>
+
+        <!-- ===== SUCCESS VIEW ===== -->
+        <main id="viewSuccess" class="view">
+            <div class="success-card">
+                <div class="success-animation">
+                    <span class="material-icons-round success-icon">check_circle</span>
+                </div>
+                <h2>Pendaftaran Berhasil!</h2>
+                <p class="success-message">Terima kasih telah mendaftar di <strong>Jagat Education Center</strong>. Data Anda telah kami terima dengan baik. Tim admin kami akan segera memproses pendaftaran Anda.</p>
+                <div class="success-info">
+                    <span class="material-icons-round">info</span>
+                    <p>Langkah terakhir: Konfirmasi pendaftaran Anda melalui WhatsApp agar admin dapat segera menindaklanjuti.</p>
+                </div>
+                <div class="success-actions">
+                    <button class="btn btn-whatsapp" id="btnKonfirmasiWA">
+                        <span class="material-icons-round">chat</span>
+                        Konfirmasi Pendaftaran via WhatsApp
+                    </button>
+                    <button class="btn btn-outline" id="btnKembaliAwal">
+                        <span class="material-icons-round">replay</span>
+                        Daftar Lagi
+                    </button>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ===== MODAL: Panduan Pengisian ===== -->
+    <div id="modalPanduan" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <span class="material-icons-round modal-icon">info</span>
+                    <h3>Panduan Pengisian</h3>
+                </div>
+                <button class="icon-btn close-modal" data-target="modalPanduan">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="guide-item">
+                    <span class="material-icons-round guide-icon">star</span>
+                    <div>
+                        <p class="guide-title">Tanda Bintang (<span class="required">*</span>)</p>
+                        <p class="guide-text">Semua field bertanda bintang wajib diisi dengan benar.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <span class="material-icons-round guide-icon">cake</span>
+                    <div>
+                        <p class="guide-title">Format TTL</p>
+                        <p class="guide-text">Tulis dengan format: <em>Kota, Tanggal Bulan Tahun</em>. Contoh: Tuban, 10 Desember 2020</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <span class="material-icons-round guide-icon">smartphone</span>
+                    <div>
+                        <p class="guide-title">Nomor WhatsApp</p>
+                        <p class="guide-text">Pastikan nomor WA aktif untuk keperluan konfirmasi dan komunikasi.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <span class="material-icons-round guide-icon">fact_check</span>
+                    <div>
+                        <p class="guide-title">Cek Formulir</p>
+                        <p class="guide-text">Setelah mengisi, klik "Cek Formulir" untuk review data sebelum dikirim.</p>
+                    </div>
+                </div>
+                <div class="guide-item">
+                    <span class="material-icons-round guide-icon">send</span>
+                    <div>
+                        <p class="guide-title">Kirim & Konfirmasi</p>
+                        <p class="guide-text">Setelah data terkirim, klik "Konfirmasi via WhatsApp" untuk menyelesaikan pendaftaran.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary close-modal" data-target="modalPanduan">
+                    <span class="material-icons-round">thumb_up</span>
+                    Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: Review Data ===== -->
+    <div id="modalReview" class="modal-overlay">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <span class="material-icons-round modal-icon">fact_check</span>
+                    <h3>Cek Formulir</h3>
+                </div>
+                <button class="icon-btn close-modal" data-target="modalReview">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="review-subtitle">Mohon periksa kembali data berikut sebelum dikirim:</p>
+                <div id="reviewDataContainer"></div>
+            </div>
+            <div class="modal-footer modal-footer-split">
+                <button class="btn btn-outline close-modal" data-target="modalReview">
+                    <span class="material-icons-round">edit</span>
+                    Edit Data
+                </button>
+                <button class="btn btn-primary" id="btnKirimData">
+                    <span class="material-icons-round">send</span>
+                    Kirim Data Pendaftaran
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: Validation Error ===== -->
+    <div id="modalError" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header error-header">
+                <div class="modal-header-content">
+                    <span class="material-icons-round modal-icon error">error</span>
+                    <h3>Data Belum Lengkap</h3>
+                </div>
+                <button class="icon-btn close-modal" data-target="modalError">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage" class="error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary close-modal" data-target="modalError">
+                    <span class="material-icons-round">check</span>
+                    OK, Saya Perbaiki
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LOADING OVERLAY ===== -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner-ring"></div>
+            <p class="loading-text">Mengirim pendaftaran...</p>
+            <p class="loading-subtext">Mohon tunggu sebentar</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
